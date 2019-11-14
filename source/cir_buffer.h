@@ -11,6 +11,7 @@ typedef struct circ_buf{
     uint8_t count;
     uint8_t head_count;
     uint8_t tail_count;
+    uint8_t *buffer_new;
 } circ_buf_t;
 
 
@@ -42,6 +43,7 @@ circ_status buff_check_empty(circ_buf_t *p);
 circ_status buff_add_item(circ_buf_t *p,uint8_t item);
 circ_status buff_remove_item(circ_buf_t *p);
 circ_status buff_ptr_valid(circ_buf_t *p);
+circ_status buff_resize(circ_buf_t *p, uint8_t capacity);
 #endif
 
 
