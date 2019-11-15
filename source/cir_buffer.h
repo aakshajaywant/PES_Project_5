@@ -3,7 +3,7 @@
 #ifndef CIR_BUFFER_H_
 #define CIR_BUFFER_H_
 
-typedef struct circ_buf{
+typedef struct ring_buf{
     uint8_t *buffer;
     uint8_t *head;
     uint8_t *tail;
@@ -12,7 +12,7 @@ typedef struct circ_buf{
     uint8_t head_count;
     uint8_t tail_count;
     uint8_t *buffer_new;
-} circ_buf_t;
+} ring_buffer;
 
 
 typedef enum{
@@ -35,15 +35,15 @@ oldest_item_not_removed,
 wrap_around,
 memory_reallocated,
 memory_not_reallocated
-}circ_status;
+}ring_status;
 
-circ_status buff_init(circ_buf_t *p, uint8_t capacity);
-circ_status buff_check_full(circ_buf_t *p,uint8_t capacity);
-circ_status buff_check_empty(circ_buf_t *p);
-circ_status buff_add_item(circ_buf_t *p,uint8_t item);
-circ_status buff_remove_item(circ_buf_t *p);
-circ_status buff_ptr_valid(circ_buf_t *p);
-circ_status buff_resize(circ_buf_t *p, uint8_t capacity);
+ring_status buff_init(ring_buffer *p, uint8_t capacity);
+ring_status buff_check_full(ring_buffer *p,uint8_t capacity);
+ring_status buff_check_empty(ring_buffer *p);
+ring_status buff_add_item(ring_buffer *p,uint8_t item);
+ring_status buff_remove_item(ring_buffer *p);
+ring_status buff_ptr_valid(ring_buffer *p);
+ring_status buff_resize(ring_buffer *p, uint8_t capacity);
 #endif
 
 

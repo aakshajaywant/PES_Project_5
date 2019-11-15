@@ -15,15 +15,17 @@ uint8_t *head_position;
 uint8_t *tail_position;
 
 
-circ_status buff_init(circ_buf_t *p, uint8_t capacity)
+ring_status buff_init(ring_buffer *p, uint8_t capacity)
 {
 	if(p == NULL || capacity <= 0)
 	{
 		return buffer_init_not_done;
+
 	}
 	else
 	{
 		p->buffer = (uint8_t*) malloc(sizeof(uint8_t)*capacity);
+		PRINTF("The malloc pointer is at address: %p",p->buffer);
 		p->head = p->buffer;
 		p->tail = p->buffer;
 		p->capacity = capacity;
@@ -34,10 +36,11 @@ circ_status buff_init(circ_buf_t *p, uint8_t capacity)
 		{
 			return buffer_init_not_done;
 		}
+
 	}
 }
 
-circ_status buff_check_full(circ_buf_t *p,uint8_t capacity)
+ring_status buff_check_full(ring_buffer *p,uint8_t capacity)
 {
 
 	if(p == NULL)
@@ -58,7 +61,7 @@ circ_status buff_check_full(circ_buf_t *p,uint8_t capacity)
 	//}
 }
 
-circ_status buff_check_empty(circ_buf_t *p)
+ring_status buff_check_empty(ring_buffer *p)
 {
 	if(p == NULL)
 		{
@@ -78,7 +81,7 @@ circ_status buff_check_empty(circ_buf_t *p)
 }
 
 
-circ_status buff_add_item(circ_buf_t *p,uint8_t item)
+ring_status buff_add_item(ring_buffer *p,uint8_t item)
 {
 
 	if(p->head == (p->buffer + p->capacity - 1))
@@ -100,7 +103,7 @@ circ_status buff_add_item(circ_buf_t *p,uint8_t item)
 			(p->count)++;
 			return item_added_in_buff;
 		}
-	else if(p->head_count > p->tail_count)
+	else if(p->head_count < p->tail_count)
 	{
 			return item_not_added_in_buff;
 	}
@@ -116,7 +119,7 @@ circ_status buff_add_item(circ_buf_t *p,uint8_t item)
 }
 
 
-circ_status buff_remove_item(circ_buf_t *p)
+ring_status buff_remove_item(ring_buffer *p)
 {
 
 	uint8_t read;
@@ -138,7 +141,7 @@ circ_status buff_remove_item(circ_buf_t *p)
 				(p->count)--;
 				return oldest_item_removed;
 			}
-		else if(p->head_count > p->tail_count)
+		else if(p->head_count < p->tail_count)
 			{
 				return oldest_item_not_removed;
 			}
@@ -157,7 +160,7 @@ circ_status buff_remove_item(circ_buf_t *p)
 
 
 
-circ_status buff_destroy(circ_buf_t *p)
+ring_status buff_destroy(ring_buffer *p)
 {
 		if(p == NULL)
 		{
@@ -173,7 +176,7 @@ circ_status buff_destroy(circ_buf_t *p)
 }
 
 
-circ_status buff_ptr_valid(circ_buf_t *p)
+ring_status buff_ptr_valid(ring_buffer *p)
 {
 	if(p == NULL)
 		{
@@ -186,7 +189,7 @@ circ_status buff_ptr_valid(circ_buf_t *p)
 }
 
 
-circ_status buff_resize(circ_buf_t *p, uint8_t capacity)
+ring_status buff_resize(ring_buffer *p, uint8_t capacity)
 {
 	if(p->count == p->capacity)
 	{
