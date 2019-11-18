@@ -1,9 +1,24 @@
+/*
 
- 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 /**
- * @file    Project_5.c
+ * @file    project5.c
  * @brief   Application entry point.
  */
+#include "uartinterrupt.h"
+#include "uartpoll.h"
+#include "cir_buffer.h"
 #include <stdio.h>
 #include "board.h"
 #include "peripherals.h"
@@ -11,12 +26,15 @@
 #include "clock_config.h"
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
-#include "uartinterrupt.h"
-#include "uartpoll.h"
-#include "cir_buffer.h"
 
+char str[100];
+ring_buffer *t_buff;
+ring_buffer *r_buff;
+ring_status receive_status;
 
-int main(void) {
+unsigned char string[100];
+int main()
+{
 
   	/* Init board hardware. */
     BOARD_InitBootPins();
@@ -25,23 +43,49 @@ int main(void) {
   	/* Init FSL debug console. */
     BOARD_InitDebugConsole();
 
-    PRINTF("Hello World\n");
-
+    Init_UART0();
+    PRINTF("Hello World\n\r");
     char a;
-       while(1){
-// 		UART0_Transmit_Poll(a);
-//		char read=UART0_Receive_Poll();
-//		PRINTF("\n \r %d",read);
-//      while(1){
-//      char read=UART0_Receive_Poll();
-//      UART0_Transmit_Poll(read);
-//      UART0_rec_check();
-//      char i=UART0_poll_rx();
-//      UART0_rec_check();
-       a=UART0_poll_getchar();
-       UART0_poll_putchar(a);
 
-   }
 
-    return 0 ;
+
+//    //UART0_Transmit_Poll(a);
+//    //char read=UART0_Receive_Poll();
+//    //PRINTF("\n \r %d",read);
+    //while(1){
+    //char read=UART0_Receive_Poll();
+    //UART0_Transmit_Poll(read);
+    //UART0_rec_check();
+   // char i=UART0_poll_rx();
+  //  UART0_rec_check();
+
+    	 r_buff = (ring_buffer*)malloc(sizeof(ring_buffer));
+    	 PRINTF("\n\r%d",sizeof(ring_buffer));
+    	 receive_status = buff_initialize(r_buff, 6);
+    	 PRINTF("\n\rRx1 status is: %d",receive_status);
+
+    	 while(1){
+
+#if UART_MODE == POLLING_MODE
+		 a = UART0_poll_getchar();
+	 	 UART0_poll_putchar(a);
+#endif
+
+//    t_buff = (ring_buffer*)malloc(sizeof(ring_buffer));
+//    ring_status transmit_status = buff_init(t_buff, 20);
+
+//    PRINTF("\n\rTx status is: %d",transmit_status);
+
+
+
+
+//#if MODE==APPLICATION_MODE
+//   PRINTF("\n \r APPLICATION MODE ON \n \r");
+//   uart_getstr(str);
+//   uart_putstr(str);
+//application_mode(str);
+//#endif
+
+    }
+//return 0;
 }

@@ -7,6 +7,7 @@
 ****************************************************************************/
 
 #include "uartpoll.h"
+#include "cir_buffer.h"
 #include <stdio.h>
 #include "board.h"
 #include "peripherals.h"
@@ -14,6 +15,9 @@
 #include "clock_config.h"
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
+
+extern ring_buffer *t_buff;
+extern ring_buffer *r_buff;
 
 void Init_UART0() {
 
@@ -98,7 +102,9 @@ void UART0_poll_putchar(char data)			//tx
 {
 	if( UART0_check() == 0 )
 	{
+		PRINTF("\n\r");
 		UART0_poll_tx(data);
+		ring_status remove_buff = buff_remove_item(r_buff);
 	}
 }
 
@@ -117,18 +123,33 @@ uint8_t UART0_rec_check()
 
 char UART0_poll_rx()
 {
-	PRINTF("Receiving DATA\n \r");
+	//PRINTF("Receiving DATA\n \r");
 	return UART0->D;
 }
 
-char UART0_poll_getchar()
+char UART0_poll_getchar()			//rx
 {
+	char rec_data;
 		if( UART0_rec_check() == 0 )
 		{
-			UART0_poll_rx();
+			rec_data = UART0_poll_rx();
+			ring_status add_buff = buff_add_item(r_buff, rec_data);
+			//ring_status remove_buff = buff_remove_item(ring_buffer *p);
+
 		}
 		return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
 
 //
 //	while(1){

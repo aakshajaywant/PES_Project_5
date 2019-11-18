@@ -1,17 +1,30 @@
-#include <stdint.h>
+
 
 #ifndef CIR_BUFFER_H_
 #define CIR_BUFFER_H_
 
+#include "uartpoll.h"
+#include <stdio.h>
+#include <stdint.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include "board.h"
+#include "peripherals.h"
+#include "pin_mux.h"
+#include "clock_config.h"
+#include "MKL25Z4.h"
+#include "fsl_debug_console.h"
+
 typedef struct ring_buf{
-    uint8_t *buffer;
-    uint8_t *head;
-    uint8_t *tail;
+    char *buffer;
+    uint8_t head;
+    uint8_t tail;
     uint8_t capacity;
     uint8_t count;
     uint8_t head_count;
     uint8_t tail_count;
-    uint8_t *buffer_new;
+    char *buffer_new;
 } ring_buffer;
 
 
@@ -37,13 +50,14 @@ memory_reallocated,
 memory_not_reallocated
 }ring_status;
 
-ring_status buff_init(ring_buffer *p, uint8_t capacity);
-ring_status buff_check_full(ring_buffer *p,uint8_t capacity);
+ring_status buff_initialize(ring_buffer *p, uint8_t capacity);
+ring_status buff_check_full(ring_buffer *p);
 ring_status buff_check_empty(ring_buffer *p);
-ring_status buff_add_item(ring_buffer *p,uint8_t item);
+ring_status buff_add_item(ring_buffer *p,char item);
 ring_status buff_remove_item(ring_buffer *p);
 ring_status buff_ptr_valid(ring_buffer *p);
-ring_status buff_resize(ring_buffer *p, uint8_t capacity);
+ring_status buff_resize(ring_buffer *p,char item);
+ring_status buff_destroy(ring_buffer *p);
 #endif
 
 

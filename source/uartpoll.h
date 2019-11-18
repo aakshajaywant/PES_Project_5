@@ -19,7 +19,8 @@
 #define POLLING_MODE 0
 #define INTERRUPT_MODE 1
 
-#define UART_MODE POLLING_MODE//INTERRUPT_MODE
+#define UART_MODE INTERRUPT_MODE //POLLING_MODE
+
 
 //extern void uart0_isr(void);
 #undef VECTOR_028

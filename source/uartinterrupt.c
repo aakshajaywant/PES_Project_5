@@ -5,9 +5,11 @@
  *      Author: rucha
  */
 
-//https://github.com/AlbandeCrevoisier/se203/blob/c571e86efed68c293fe762fd3538e3d9f76f9203/td/uart.c
 
+//https://www.pantechsolutions.net/blog/how-to-receive-a-string-from-uart/
+#include "uartinterrupt.h"
 #include "uartpoll.h"
+#include "cir_buffer.h"
 #include <stdio.h>
 #include "board.h"
 #include "peripherals.h"
@@ -16,6 +18,9 @@
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
 
+extern char str[100];
+extern ring_buffer *r_buff;
+ring_status	rx_status;
 
 #if UART_MODE == INTERRUPT_MODE
 
@@ -59,7 +64,7 @@ uint8_t UART0_int_rec_check()
 
 char UART0_int_rx()
 {
-	PRINTF("Receiving DATA\n \r");
+	//PRINTF("Receiving DATA\n \r");
 	return UART0->D;
 }
 
@@ -71,70 +76,70 @@ char UART0_int_getchar()			//rx
 		}
 }
 
+
+
+
 void UART0_IRQHandler()
 {
 	__disable_irq();
 	char c;
+
  if (UART0->S1&UART_S1_RDRF_MASK)
  {
- //c = UART0->D;
+	 //c = UART0->D;
 	 c=UART0_int_getchar();
 
  if (!(UART0->S1&UART_S1_TDRE_MASK) && !(UART0->S1&UART_S1_TC_MASK))
- {
+ 	 	 {
  //UART0->D = c;
-	 UART0_int_putchar(c);
+	 	 	 UART0_int_putchar(c);
+ 	 	 }
  }
- }
+     rx_status = buff_add_item(r_buff,c);
+ 	 PRINTF("\n\rRx2 status is: %d",rx_status);
+ 	 rx_status = buff_check_full(r_buff);
+ 	 PRINTF("\n\rRx3 status is: %d\n \r ",rx_status);
+ 	 rx_status=buff_resize(r_buff,c);
  __enable_irq();
 
 }
+
+
 
 #endif
 
 
 
+void uart_putstr(unsigned char *string)
 
+{
 
+while(*string)
+#if UART_MODE == INTERRUPT_MODE
+	UART0_int_putchar(*string++);
+#endif
+for(uint32_t i=0;i<strlen(str);i++)
+{
+UART0_poll_putchar(*(string+i));
+}
+}
 
+void uart_getstr(unsigned char *string)  //Receive a character until carriage return or newline
 
+{
 
+unsigned char i=0,a=0;
 
+while((a!='\n') && (a!='\r'))
+{
+#if UART_MODE == INTERRUPT_MODE
+*(string+i)= UART0_int_getchar();
+#endif
+*(string+i)= UART0_poll_getchar();
+a = *(string+i);
+i++;
+}
+i++;
+*(string+i) = '\0';
 
-
-
-
-
-
-
-
-
-
-
-
-//void
-//uart_puts(const char *s)
-//{
-//	int i= 0;
-//	while (s[i] != '\0')
-//		uart_int_putchar(s[i++]);
-//}
-//
-//void
-//uart_gets(char *s, int size)
-//{
-//	char c;
-//	int i;
-//	for(i = 0; i < size; i++) {
-//		c = uart_int_getchar();
-//		if (c == '\n' || c == '\r') {
-//			s[i++] = c;
-//			break;
-//		} else if (c == 0) {
-//			break;
-//		} else {
-//			s[i] = c;
-//		}
-//	}
-//	s[i] = '\0';
-//}
+}

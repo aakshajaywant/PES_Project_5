@@ -7,7 +7,9 @@
 
 #ifndef UARTINTERRUPT_H_
 #define UARTINTERRUPT_H_
-
+#include<stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
 
 #if UART_MODE == INTERRUPT_MODE
 char UART0_int_getchar();
@@ -18,5 +20,7 @@ uint8_t UART0_int_rec_check();
 char UART0_int_rx();
 char UART0_int_getchar();
 void UART0_IRQHandler();
+void uart_getstr(unsigned char *string);
+void uart_putstr(unsigned char *string);
 #endif
 #endif /* UARTINTERRUPT_H_ */
