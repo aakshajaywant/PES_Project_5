@@ -11,7 +11,7 @@ uint8_t flag = 0;
 
 ring_status buff_initialize(ring_buffer *p, uint8_t capacity)
 {
-
+	log_messages(mode,buffinitialize);
 	if(p == NULL || capacity <= 0)
 	{
 		return buffer_init_not_done;
@@ -38,7 +38,7 @@ ring_status buff_initialize(ring_buffer *p, uint8_t capacity)
 
 ring_status buff_check_full(ring_buffer *p)
 {
-
+	log_messages(mode,buffcheck_full);
 	if(p == NULL)
 	{
 		buff_ptr_valid(p);
@@ -58,6 +58,7 @@ ring_status buff_check_full(ring_buffer *p)
 
 ring_status buff_check_empty(ring_buffer *p)
 {
+	log_messages(mode,buffcheck_empty);
 	if(p == NULL)
 		{
 		buff_ptr_valid(p);
@@ -80,7 +81,7 @@ ring_status buff_check_empty(ring_buffer *p)
 
 ring_status buff_add_item(ring_buffer *p,char item)
 {
-
+	log_messages(mode,buffadd_item);
 			if((p->head == (p->capacity - 1)) && ((buff_check_full(p) == buffer_empty) || (buff_check_full(p) == buffer_not_full)))
 			{
 
@@ -120,6 +121,7 @@ return 0;
 
 ring_status buff_remove_item(ring_buffer *p)
 {
+	log_messages(mode,buffremove_item);
 if(p->head_count > p->tail_count)
 {
 	uint8_t read;
@@ -164,6 +166,7 @@ return 0;
 
 ring_status buff_destroy(ring_buffer *p)
 {
+	log_messages(mode,buffdestroy);
 		if(p == NULL)
 		{
 		buff_ptr_valid(p);
@@ -180,6 +183,7 @@ ring_status buff_destroy(ring_buffer *p)
 
 ring_status buff_ptr_valid(ring_buffer *p)
 {
+	log_messages(mode,buffptr_valid);
 	if(p == NULL)
 		{
 			return FAIL;
@@ -193,6 +197,7 @@ ring_status buff_ptr_valid(ring_buffer *p)
 
 ring_status buff_resize(ring_buffer *p,char item)
 {
+	log_messages(mode,buffresize);
 	if(p->count == p->capacity)
 	{
 		PRINTF("\n \r *****************************************************");

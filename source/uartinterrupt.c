@@ -4,9 +4,8 @@
  *  Created on: Nov 13, 2019
  *      Author: rucha
  */
-
-
 //https://www.pantechsolutions.net/blog/how-to-receive-a-string-from-uart/
+
 #include "uartinterrupt.h"
 #include "uartpoll.h"
 #include "cir_buffer.h"
@@ -103,8 +102,23 @@ void UART0_IRQHandler()
 
 }
 
-
-
 #endif
 
+
+void putstr(unsigned char *string)
+{
+
+//unsigned char a=0;
+while(*string){
+//for(uint32_t i=0;i<=strlen(str);i++)
+
+#if UART_MODE == INTERRUPT_MODE
+UART0_int_putchar(*string++);
+#endif
+
+UART0_poll_putchar(*(string++));
+
+//UART0_poll_putchar(*(string+strlen(str))) = '\0';
+}
+}
 

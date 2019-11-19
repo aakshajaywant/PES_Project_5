@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include "uartinterrupt.h"
 #include "uartpoll.h"
+#include "application.h"
+#include "cir_buffer.h"
 #include "board.h"
 #include "peripherals.h"
 #include "pin_mux.h"

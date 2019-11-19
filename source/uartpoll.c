@@ -94,7 +94,6 @@ void UART0_poll_putchar(char data)			//tx
 {
 	if( UART0_check() == 0 )
 	{
-		PRINTF("\n\r");
 		UART0_poll_tx(data);
 
 		//ring_status remove_buff = buff_remove_item(r_buff);

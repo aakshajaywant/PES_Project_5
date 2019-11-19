@@ -3,26 +3,6 @@
 
 long int timecount=0;
 
-
-void putstr(unsigned char *string)
-{
-
-//unsigned char a=0;
-while(*string){
-//for(uint32_t i=0;i<=strlen(str);i++)
-
-#if UART_MODE == INTERRUPT_MODE
-UART0_int_putchar(*string++);
-#endif
-
-UART0_poll_putchar(*(string++));
-
-//UART0_poll_putchar(*(string+strlen(str))) = '\0';
-}
-}
-
-
-
 void Init_Systick()
 {
 SysTick->LOAD =  48000000/100;
@@ -33,10 +13,6 @@ SysTick->CTRL = 0x7;
 
 void SysTick_Handler(){
 timecount++;
-//printf("%d",timecount);
-//printf("SYSTICK WORKS");
-//LED_RED_TOGGLE();
-//timestamps(timecount);
 }
 
 
@@ -67,7 +43,7 @@ if(hour>24)
 hour=0;
 }
 
-printf("\n \r %02d:%02d:%02d:%02lu",hour,min,sec,timer);
+printf("\t %02d:%02d:%02d:%02lu",hour,min,sec,timer);
 }
 
 
@@ -76,61 +52,72 @@ void log_level(log_mode mode)
 {
     if(mode == test)
     {
-        PRINTF("\n\rMODE: Test");
+        putstr("\n\rMODE: Test");
     }
     else if(mode == debug)
     {
-         PRINTF("\n\rMODE: Debug");
+         putstr("\n\rMODE: Debug");
     }
     else if(mode == status)
     {
-        PRINTF("\n\rMODE: Status");
+        putstr("\n\rMODE: Status");
     }
 }
 
 
-char ch_arr[40][40]={   "Initialize the buffer",
-						"Temperature average",
-						"Temperature alert mode",
-						"Temperature Disconnect",
-						"LED is initialized",
-						"Switches to Other State Machine"
+char ch_arr[40][40]={   "\t Initialize the buffer\n",
+						"\t Checks if Buffer is full\n",
+						"\t Checks if Buffer is Empty\n",
+						"\t Add element to the Buffer\n",
+						"\t Remove element from the Buffer\n",
+						"\t Checks if Pointer to Buffer is valid\n",
+						"\t Destroys the Buffer\n"
+						"\t Resizes the Buffer\n"
 					};
 
 void logger_func(log_func func_nm)
 {
 	if(func_nm == buffinitialize)
 	{
-		putstr("\r \t buff_initialize");
+		//PRINTF("\r \t buff_initialize");
+		putstr("\t buff_initialize");
 		putstr(ch_arr[0]);
 	}
 	else if(func_nm == buffcheck_full)
 	{
-		PRINTF("\r\tbuff_check_full");
+		putstr("\t buff_check_full");
+		putstr(ch_arr[1]);
 	}
 	else if(func_nm == buffcheck_empty)
 	{
-		PRINTF("\r\tbuff_check_empty");
+		putstr("\tbuff_check_empty");
+		putstr(ch_arr[2]);
 	}
 	else if(func_nm == buffadd_item)
 	{
-		PRINTF("\r\tbuff_add_item");
+		putstr("\t buff_add_item");
+		putstr(ch_arr[3]);
 	}
 	else if(func_nm == buffremove_item)
 	{
-		PRINTF("\r\tbuff_remove_item");
+		putstr("\t buff_remove_item");
+		putstr(ch_arr[4]);
 	}
 	else if(func_nm == buffptr_valid)
 	{
-		PRINTF("\r\tbuff_ptr_valid");
+		putstr("\t buff_ptr_valid");
+		putstr(ch_arr[5]);
+
 	}
 	else if(func_nm == buffdestroy)
 	{
-		PRINTF("\r\tbuff_destroy");
+		putstr("\t buff_destroy");
+		putstr(ch_arr[6]);
 	}
 	else
 	{
-		PRINTF("\r\tbuff_resize");
+		putstr("\tbuff_resize");
+		putstr(ch_arr[7]);
 	}
 }
 

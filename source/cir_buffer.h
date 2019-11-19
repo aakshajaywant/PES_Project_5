@@ -15,6 +15,7 @@
 #include "clock_config.h"
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
+#include "logger.h"
 
 typedef struct ring_buf{
     char *buffer;
