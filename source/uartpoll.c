@@ -127,12 +127,14 @@ char UART0_poll_getchar()			//rx
 		if( UART0_rec_check() == 0 )
 		{
 			rec_data = UART0_poll_rx();
+#if MODE == ECHO_MODE
 			ring_status add_buff = buff_add_item(r_buff, rec_data);
 			PRINTF("\n \r Add_buff status %d",add_buff);
 //			ring_status remove_buff = buff_remove_item(r_buff);
 //			PRINTF("\n\n\rremove_buff statussssss %d",remove_buff);
+#endif
 		}
-		return 0;
+		return rec_data;
 }
 
 
@@ -142,7 +144,11 @@ unsigned char i=0,a=0;
 while((a!='\n') && (a!='\r'))
 {
 
-*(string+i)= UART0_poll_getchar();
+if( UART0_rec_check() == 0 )
+{
+*(string+i)= UART0_poll_rx();
+}
+
 UART0_poll_putchar(*(string+i));
 
 a = *(string+i);

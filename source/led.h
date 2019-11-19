@@ -18,7 +18,7 @@
 #include "application.h"
 
 
-void init_led(void);
+void init_LED(void);
 void wait_receive_led(void);
 void wait_transmit_led(void);
 void delay(uint32_t d);

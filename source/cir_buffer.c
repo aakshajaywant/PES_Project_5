@@ -3,10 +3,8 @@
 #include "cir_buffer.h"
 
 
-char *head_position=0;
-uint8_t tail_position=0;
+
 ring_status r_status;
-uint8_t flag = 0;
 
 
 ring_status buff_initialize(ring_buffer *p, uint8_t capacity)

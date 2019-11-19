@@ -10,7 +10,6 @@ void app_mode(char string[])
 
    while (string[a] != '\0')
    {
-   /** Considering characters from 'a' to 'z' only and ignoring others. */
 
       if (string[a] >= 'a' && string[a] <= 'z')
       {
@@ -19,7 +18,7 @@ void app_mode(char string[])
       }
       else if (string[a] >= 'A' && string[a] <= 'Z')
       {
-         int y = string[a] - 'a';
+         int y = string[a] - 'A';
          count2[y]++;
       }
       else if (string[a] >= '0' && string[a] <= '9')
@@ -33,15 +32,24 @@ void app_mode(char string[])
 
    for (a = 0; a < 26; a++)
    {
-         printf("\n \r %c occurs %d times in the string", a + 'a', count[a]);
+	   if(count[a] != 0)
+	   {
+         printf("\n \r %c -> %d ", a + 'a', count[a]);
+	   }
    }
    for (int d = 0; d < 26; d++)
    {
-         printf("\n \r %c occurs %d times in the string", d + 'A', count2[d]);
+	   if(count2[d] != 0)
+	   {
+         printf("\n \r %c -> %d ", d + 'A', count2[d]);
+	   }
    }
    for (int c = 0; c < 10; c++)
    {
-         printf("\n \r %c occurs %d times in the string", c + '0', count3[c]);
+	   if(count3[c] != 0)
+	   {
+         printf("\n \r %c -> %d ", c + '0', count3[c]);
+	   }
    }
    return 0;
 }

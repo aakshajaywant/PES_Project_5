@@ -11,6 +11,13 @@
 #include <stdlib.h>
 #include <stdint.h>
 
+
+#define START_CRITICAL __disable_irq()
+#define END_CRITICAL  __enable_irq()
+
+
+
+
 #if UART_MODE == INTERRUPT_MODE
 char UART0_int_getchar();
 uint8_t UART0_int_check();
@@ -22,5 +29,7 @@ char UART0_int_getchar();
 void UART0_IRQHandler();
 void uart_getstr(unsigned char *string);
 void uart_putstr(unsigned char *string);
+void putstr(unsigned char *string);
+void uart_getstr_int(unsigned char *string);
 #endif
 #endif /* UARTINTERRUPT_H_ */

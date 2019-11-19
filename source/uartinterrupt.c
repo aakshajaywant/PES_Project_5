@@ -76,34 +76,60 @@ char UART0_int_getchar()			//rx
 }
 
 
+void uart_getstr_int(unsigned char *string)  //Receive a character until carriage return or newline
+{
+unsigned char i=0,a=0;
+while((a!='\n') && (a!='\r'))
+{
+*(string+i)= UART0_int_getchar();
+UART0_int_putchar(*(string+i));
+a = *(string+i);
+i++;
+}
 
+//i++;
+*(string+i) = '\0';
+
+}
 
 void UART0_IRQHandler()
 {
-	__disable_irq();
+//__disable_irq();
+START_CRITICAL;
 	char c;
+#if MODE==APPLICATION_MODE
+ PRINTF("\n \r APPLICATION MODE ON \n \r");
+ uart_getstr_int(str);
+ putstr(str);
+ putstr("\n \n");
+ app_mode(str);
 
- if (UART0->S1&UART_S1_RDRF_MASK)
- {
-	 //c = UART0->D;
-	 init_LED();
-	 wait_receive_led();
-	 c=UART0_int_getchar();
+#endif
 
- if (!(UART0->S1&UART_S1_TDRE_MASK) && !(UART0->S1&UART_S1_TC_MASK))
- 	 	 {
- //UART0->D = c;
-	 	 	 init_LED();
-	 	 	 wait_transmit_led();
-	 	 	 UART0_int_putchar(c);
- 	 	 }
- }
+
+  if (UART0->S1 & UART_S1_RDRF_MASK)
+  {
+  //c = UART0->D;
+  init_LED();
+  wait_receive_led();
+  c=UART0_int_getchar();
+
+  if (!(UART0->S1&UART_S1_TDRE_MASK) && !(UART0->S1&UART_S1_TC_MASK))
+  {
+  //UART0->D = c;
+  init_LED();
+  wait_transmit_led();
+  UART0_int_putchar(c);
+  }
+  }
+
+#if MODE==ECHO_MODE
      rx_status = buff_add_item(r_buff,c);
- 	 PRINTF("\n\rRx2 status is: %d",rx_status);
- 	 rx_status=buff_resize(r_buff,c);
-
- __enable_irq();
-
+  PRINTF("\n\rRx2 status is: %d",rx_status);
+  rx_status=buff_resize(r_buff,c);
+#endif
+ //__enable_irq();
+END_CRITICAL;
 }
 
 #endif

@@ -42,11 +42,11 @@ typedef enum
 }log_func;
 
 
-#define mode test
+#define mode debug
 //#define func INITIALIZE_buffer
 
 void log_level(log_mode mode);
 void logger_func(log_func func_nm);
 void log_messages(log_mode mode,log_func func_nm);
-void putstr(unsigned char *string);
+//void putstr(unsigned char *string);
 #endif

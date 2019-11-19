@@ -4,6 +4,7 @@
 #define CIR_BUFFER_H_
 
 #include "uartpoll.h"
+#include "uartinterrupt.h"
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -27,7 +28,7 @@ typedef struct ring_buf{
     uint8_t head_count;
     uint8_t tail_count;
     char *buffer_new;
-} ring_buffer;
+}ring_buffer;
 
 
 typedef enum{

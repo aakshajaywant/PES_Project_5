@@ -12,7 +12,9 @@ SysTick->CTRL = 0x7;
 }
 
 void SysTick_Handler(){
+START_CRITICAL;
 timecount++;
+END_CRITICAL;
 }
 
 
@@ -73,6 +75,8 @@ char ch_arr[40][40]={   "\t Initialize the buffer",
 						"\t Checks if Pointer to Buffer is valid",
 						"\t Destroys the Buffer"
 						"\t Resizes the Buffer"
+						"\t Application mode"
+						"\t Echo mode"
 					};
 
 void logger_func(log_func func_nm)
@@ -114,10 +118,20 @@ void logger_func(log_func func_nm)
 		putstr("\t buff_destroy");
 		putstr(ch_arr[6]);
 	}
-	else
+	else if(func_nm == buffresize)
 	{
 		putstr("\tbuff_resize");
 		putstr(ch_arr[7]);
+	}
+	else if(func_nm == applicationmode)
+	{
+		putstr("\t app_mode");
+		putstr(ch_arr[8]);
+	}
+	else
+	{
+		putstr("\t echo_mode");
+		putstr(ch_arr[9]);
 	}
 }
 

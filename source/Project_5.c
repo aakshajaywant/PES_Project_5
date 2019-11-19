@@ -65,7 +65,7 @@ int main()
 	}
 
 
-while(1){
+//while(1){
 
 	/*********APPLICATION AND ECHO MODE*******************************/
 #if MODE == APPLICATION_MODE
@@ -74,15 +74,17 @@ while(1){
 
 		uart_getstr_poll(str);
 	 	 putstr(str);
-	 	 putstr("\n");
-	#elif UART_MODE == INTERRUPT_MODE
+	 	 putstr("\n\n");
+	 	app_mode(str);
+#endif
 
-	#endif
+	 	#if UART_MODE == INTERRUPT_MODE
 
-	 app_mode(str);
+		#endif
 
+#endif
 
-#elif MODE == ECHO_MODE
+#if MODE == ECHO_MODE
 	 log_messages(mode,echomode);
 	#if UART_MODE == POLLING_MODE
 		char a = UART0_poll_getchar();
@@ -96,6 +98,6 @@ while(1){
 
 #endif
 
-}
+//}
 return 0;
 }
