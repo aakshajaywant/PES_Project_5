@@ -19,6 +19,7 @@
 #include "uartinterrupt.h"
 #include "uartpoll.h"
 #include "cir_buffer.h"
+#include "application.h"
 #include <stdio.h>
 #include "board.h"
 #include "peripherals.h"
@@ -43,49 +44,43 @@ int main()
   	/* Init FSL debug console. */
     BOARD_InitDebugConsole();
 
+    Init_Systick();
     Init_UART0();
     PRINTF("Hello World\n\r");
-    char a;
+    log_messages(mode,buffinitialize);
+    r_buff = (ring_buffer*)malloc(sizeof(ring_buffer));
+    PRINTF("\n\r%d",sizeof(ring_buffer));
+    receive_status = buff_initialize(r_buff, 6);
+    PRINTF("\n\rRx1 status is: %d",receive_status);
+while(1){
+#if MODE == APPLICATION_MODE
+
+	#if UART_MODE == POLLING_MODE
+
+		uart_getstr_poll(str);
+	 	 putstr(str);
+	 	 putstr("\n");
+	#elif UART_MODE == INTERRUPT_MODE
+
+	#endif
+
+	 application_mode(str);
 
 
+#elif MODE == ECHO_MODE
 
-//    //UART0_Transmit_Poll(a);
-//    //char read=UART0_Receive_Poll();
-//    //PRINTF("\n \r %d",read);
-    //while(1){
-    //char read=UART0_Receive_Poll();
-    //UART0_Transmit_Poll(read);
-    //UART0_rec_check();
-   // char i=UART0_poll_rx();
-  //  UART0_rec_check();
-
-    	 r_buff = (ring_buffer*)malloc(sizeof(ring_buffer));
-    	 PRINTF("\n\r%d",sizeof(ring_buffer));
-    	 receive_status = buff_initialize(r_buff, 6);
-    	 PRINTF("\n\rRx1 status is: %d",receive_status);
-
-    	 while(1){
-
-#if UART_MODE == POLLING_MODE
-		 a = UART0_poll_getchar();
+	#if UART_MODE == POLLING_MODE
+		char a = UART0_poll_getchar();
 	 	 UART0_poll_putchar(a);
+
+	#elif UART_MODE == INTERRUPT_MODE
+
+	#endif
+
+
+
 #endif
 
-//    t_buff = (ring_buffer*)malloc(sizeof(ring_buffer));
-//    ring_status transmit_status = buff_init(t_buff, 20);
-
-//    PRINTF("\n\rTx status is: %d",transmit_status);
-
-
-
-
-//#if MODE==APPLICATION_MODE
-//   PRINTF("\n \r APPLICATION MODE ON \n \r");
-//   uart_getstr(str);
-//   uart_putstr(str);
-//application_mode(str);
-//#endif
-
-    }
-//return 0;
+}
+return 0;
 }

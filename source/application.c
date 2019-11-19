@@ -1,15 +1,7 @@
-#include "uartpoll.h"
-#include <stdio.h>
-#include "board.h"
-#include "peripherals.h"
-#include "pin_mux.h"
-#include "clock_config.h"
-#include "MKL25Z4.h"
-#include "fsl_debug_console.h"
-#include "uartinterrupt.h"
+#include "application.h"
 
 
-#if MODE==APPLICATION_MODE
+#if MODE == APPLICATION_MODE
 
 void application_mode(char string[])
 {

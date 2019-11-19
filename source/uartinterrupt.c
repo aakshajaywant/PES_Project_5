@@ -97,9 +97,8 @@ void UART0_IRQHandler()
  }
      rx_status = buff_add_item(r_buff,c);
  	 PRINTF("\n\rRx2 status is: %d",rx_status);
- 	 rx_status = buff_check_full(r_buff);
- 	 PRINTF("\n\rRx3 status is: %d\n \r ",rx_status);
  	 rx_status=buff_resize(r_buff,c);
+
  __enable_irq();
 
 }
@@ -109,37 +108,3 @@ void UART0_IRQHandler()
 #endif
 
 
-
-void uart_putstr(unsigned char *string)
-
-{
-
-while(*string)
-#if UART_MODE == INTERRUPT_MODE
-	UART0_int_putchar(*string++);
-#endif
-for(uint32_t i=0;i<strlen(str);i++)
-{
-UART0_poll_putchar(*(string+i));
-}
-}
-
-void uart_getstr(unsigned char *string)  //Receive a character until carriage return or newline
-
-{
-
-unsigned char i=0,a=0;
-
-while((a!='\n') && (a!='\r'))
-{
-#if UART_MODE == INTERRUPT_MODE
-*(string+i)= UART0_int_getchar();
-#endif
-*(string+i)= UART0_poll_getchar();
-a = *(string+i);
-i++;
-}
-i++;
-*(string+i) = '\0';
-
-}

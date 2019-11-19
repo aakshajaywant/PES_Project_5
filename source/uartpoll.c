@@ -7,6 +7,8 @@
 ****************************************************************************/
 
 #include "uartpoll.h"
+#include "logger.h"
+#include "uartinterrupt.h"
 #include "cir_buffer.h"
 #include <stdio.h>
 #include "board.h"
@@ -63,16 +65,6 @@ UART0->C2 = UART0_C2_RIE_MASK;
 //enable transmitter and receiver
 UART0->C2 |= UART0_C2_TE_MASK| UART0_C2_RE_MASK;
 
-//while (1)
-// {
-//#if UART_MODE == POLLING_MODE
-// while(!(UART0->S1&UART_S1_RDRF_MASK));
-// uint8_t c = UART0->D;
-// while(!(UART0->S1&UART_S1_TDRE_MASK) && !(UART0->S1&UART_S1_TC_MASK));
-// UART0->D = c;
-//#endif
-// }
-
 }
 
 //
@@ -104,7 +96,8 @@ void UART0_poll_putchar(char data)			//tx
 	{
 		PRINTF("\n\r");
 		UART0_poll_tx(data);
-		ring_status remove_buff = buff_remove_item(r_buff);
+
+		//ring_status remove_buff = buff_remove_item(r_buff);
 	}
 }
 
@@ -134,38 +127,31 @@ char UART0_poll_getchar()			//rx
 		{
 			rec_data = UART0_poll_rx();
 			ring_status add_buff = buff_add_item(r_buff, rec_data);
-			//ring_status remove_buff = buff_remove_item(ring_buffer *p);
-
+			PRINTF("\n\n\radd_buff statussssss %d",add_buff);
+//			ring_status remove_buff = buff_remove_item(r_buff);
+//			PRINTF("\n\n\rremove_buff statussssss %d",remove_buff);
 		}
 		return 0;
 }
 
 
+void uart_getstr_poll(unsigned char *string)  //Receive a character until carriage return or newline
+{
+unsigned char i=0,a=0;
+while((a!='\n') && (a!='\r'))
+{
 
+*(string+i)= UART0_poll_getchar();
+UART0_poll_putchar(*(string+i));
 
+a = *(string+i);
+i++;
+}
 
+//i++;
+*(string+i) = '\0';
+putstr(string);
+}
 
-
-
-
-
-
-
-//
-//	while(1){
-//	uint8_t check2=UART0_rec_check();
-//	PRINTF("%d\n",check2);
-//	if(check2==0){
-//		char data=UART0_poll_rx();
-//		printf("inside the loop");
-//		break;
-//	}
-//	else
-//	{
-//		PRINTF("Wait\n \r");
-//	}
-//	break;
-//	}
-//}
 
 

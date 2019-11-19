@@ -8,6 +8,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "uartinterrupt.h"
+#include "uartpoll.h"
 #include "board.h"
 #include "peripherals.h"
 #include "pin_mux.h"
@@ -25,23 +27,16 @@ typedef enum
 
 typedef enum
 {
-	buff_initialize = 0,
-	buff_check_full,
-	buff_check_empty,
-	buff_add_item,
-	buff_remove_item,
-	buff_ptr_valid,
-	buff_destroy,
-	buff_resize
+	buffinitialize = 0,
+	buffcheck_full,
+	buffcheck_empty,
+	buffadd_item,
+	buffremove_item,
+	buffptr_valid,
+	buffdestroy,
+	buffresize
 }log_func;
 
-char ch_arr[40][40]={   "",
-						"Temperature average",
-						"Temperature alert mode",
-						"Temperature Disconnect",
-						"LED is initialized",
-						"Switches to Other State Machine"
-					};
 
 #define mode debug
 //#define func INITIALIZE_buffer
@@ -49,5 +44,5 @@ char ch_arr[40][40]={   "",
 void log_level(log_mode mode);
 void logger_func(log_func func_nm);
 void log_messages(log_mode mode,log_func func_nm);
-
+void putstr(unsigned char *string);
 #endif

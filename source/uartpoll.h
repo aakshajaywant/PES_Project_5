@@ -19,7 +19,7 @@
 #define POLLING_MODE 0
 #define INTERRUPT_MODE 1
 
-#define UART_MODE INTERRUPT_MODE //POLLING_MODE
+#define UART_MODE POLLING_MODE  //INTERRUPT_MODE
 
 
 //extern void uart0_isr(void);
@@ -36,6 +36,6 @@ char UART0_Receive_Poll(void);
 uint8_t UART0_rec_check();
 char UART0_poll_rx();
 char UART0_poll_getchar();
-
+void uart_getstr_poll(unsigned char *string);
 
 #endif /* UARTPOLL_H_ */

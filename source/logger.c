@@ -2,6 +2,27 @@
 
 
 long int timecount=0;
+
+
+void putstr(unsigned char *string)
+{
+
+//unsigned char a=0;
+while(*string){
+//for(uint32_t i=0;i<=strlen(str);i++)
+
+#if UART_MODE == INTERRUPT_MODE
+UART0_int_putchar(*string++);
+#endif
+
+UART0_poll_putchar(*(string++));
+
+//UART0_poll_putchar(*(string+strlen(str))) = '\0';
+}
+}
+
+
+
 void Init_Systick()
 {
 SysTick->LOAD =  48000000/100;
@@ -67,33 +88,43 @@ void log_level(log_mode mode)
     }
 }
 
+
+char ch_arr[40][40]={   "Initialize the buffer",
+						"Temperature average",
+						"Temperature alert mode",
+						"Temperature Disconnect",
+						"LED is initialized",
+						"Switches to Other State Machine"
+					};
+
 void logger_func(log_func func_nm)
 {
-	if(func_nm == buff_initialize)
+	if(func_nm == buffinitialize)
 	{
-		PRINTF("\r \t buff_initialize");
+		putstr("\r \t buff_initialize");
+		putstr(ch_arr[0]);
 	}
-	else if(func_nm == buff_check_full)
+	else if(func_nm == buffcheck_full)
 	{
 		PRINTF("\r\tbuff_check_full");
 	}
-	else if(func_nm == buff_check_empty)
+	else if(func_nm == buffcheck_empty)
 	{
 		PRINTF("\r\tbuff_check_empty");
 	}
-	else if(func_nm == buff_add_item)
+	else if(func_nm == buffadd_item)
 	{
 		PRINTF("\r\tbuff_add_item");
 	}
-	else if(func_nm == buff_remove_item)
+	else if(func_nm == buffremove_item)
 	{
 		PRINTF("\r\tbuff_remove_item");
 	}
-	else if(func_nm == buff_ptr_valid)
+	else if(func_nm == buffptr_valid)
 	{
 		PRINTF("\r\tbuff_ptr_valid");
 	}
-	else if(func_nm == buff_destroy)
+	else if(func_nm == buffdestroy)
 	{
 		PRINTF("\r\tbuff_destroy");
 	}
