@@ -1,4 +1,16 @@
-
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 						unittest.h
+ ********************************************************************************/
+ /**************References******************************************************
+http://cache.freescale.com/files/32bit/doc/quick_ref_guide/KLQRUG.pdf
+http://cunit.sourceforge.net/screenshots.html
+http://www.ucunit.org/
+https://github.com/ucunit/ucunit
+*********************************************************************************/
 
 #ifndef UNITTEST_H_
 #define UNITTEST_H_
@@ -160,8 +172,8 @@ static int ucunit_testcases_passed = 0; /* Number of passed test cases */
 static int ucunit_testcases_failed_checks = 0; /* Number of failed checks in a testcase */
 static int ucunit_checklist_failed_checks = 0; /* Number of failed checks in a checklist */
 static int ucunit_action = UCUNIT_ACTION_WARNING; /* Action to take if a check fails */
-static int ucunit_checkpoints[UCUNIT_MAX_TRACEPOINTS]; /* Max. number of tracepoints */
-static int ucunit_index = 0; /* Tracepoint index */
+//static int ucunit_checkpoints[UCUNIT_MAX_TRACEPOINTS]; /* Max. number of tracepoints */
+//static int ucunit_index = 0; /* Tracepoint index */
 
 /*****************************************************************************/
 /* Internal (private) Macros                                                 */
@@ -539,18 +551,7 @@ static int ucunit_index = 0; /* Tracepoint index */
     }                                                                \
     while(0)
 
-//#define UCUNIT_TestcaseBegin(name)                                        \
-//	do                                                                    \
-//    {                                                                     \
-//        UCUNIT_WriteString("\n======================================\n"); \
-//        UCUNIT_WriteString(name);                                         \
-//        UCUNIT_WriteString("\n======================================\n"); \
-//        ucunit_testcases_failed_checks = ucunit_checks_failed;            \
-//    }                                                                     \
-//    while(0)
-/*****************************************************************************/
-/* Support for code coverage */
-/*****************************************************************************/
+
 
 /**
  * @Macro:       UCUNIT_Tracepoint(index)

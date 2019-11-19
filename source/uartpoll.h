@@ -1,10 +1,13 @@
-/*
- * uartpoll.h
- *
- *  Created on: Nov 11, 2019
- *      Author: rucha
- */
-
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 						uartpoll.h
+ ********************************************************************************/
+/**********************************REFERENCE*********************************
+http://cache.freescale.com/files/32bit/doc/quick_ref_guide/KLQRUG.pdf
+*****************************************************************************/
 #ifndef UARTPOLL_H_
 #define UARTPOLL_H_
 

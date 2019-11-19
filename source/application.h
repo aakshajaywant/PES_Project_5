@@ -1,4 +1,13 @@
-
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 						application.h
+ ********************************************************************************/
+/**********************************REFERENCE*********************************
+https://www.programmingsimplified.com/c-program-find-characters-frequency
+*****************************************************************************/
 #ifndef APPLICATION_H_
 #define APPLICATION_H_
 
@@ -16,6 +25,10 @@
 #include "clock_config.h"
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
+#include "cir_buffer.h"
+#include "led.h"
+#include "unittest.h"
+#include "system.h"
 
 #define MODE APPLICATION_MODE//ECHO_MODE//
 

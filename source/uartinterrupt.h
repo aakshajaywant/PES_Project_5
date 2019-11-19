@@ -1,22 +1,24 @@
-/*
- * uartinterrupt.h
- *
- *  Created on: Nov 13, 2019
- *      Author: rucha
- */
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 						uartinterrupt.h
+ ********************************************************************************/
+/**********************************REFERENCE*********************************
+http://cache.freescale.com/files/32bit/doc/quick_ref_guide/KLQRUG.pdf
 
+*****************************************************************************/
 #ifndef UARTINTERRUPT_H_
 #define UARTINTERRUPT_H_
 #include<stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 
-
+/*****************CRITICAL SECTION*********************/
 #define START_CRITICAL __disable_irq()
 #define END_CRITICAL  __enable_irq()
-
-
-
+/*****************************************************/
 
 #if UART_MODE == INTERRUPT_MODE
 char UART0_int_getchar();

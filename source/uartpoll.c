@@ -1,10 +1,13 @@
-/*****************************************************************************
- 	 	 				PES PROJECT 5
-  	  	  	  	  	  	  uartpoll.h
-
-
- *http://cache.freescale.com/files/32bit/doc/quick_ref_guide/KLQRUG.pdf
-****************************************************************************/
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 						uartpoll.c
+ *****************************************************************************/
+/************************REFERENCE*********************************
+http://cache.freescale.com/files/32bit/doc/quick_ref_guide/KLQRUG.pdf
+*****************************************************************************/
 
 #include "uartpoll.h"
 #include "logger.h"
@@ -25,6 +28,12 @@
 extern ring_buffer *t_buff;
 extern ring_buffer *r_buff;
 
+
+/******************UART0 INTIALIZATION FUNCTION-COMMON FOR BOTH MODES**********************************
+ In this function we intialize the baud rate,ports and RX and TX for the UART0 mode.
+ We set the NVIC for UART) interrupt mode.
+
+*****************************************************************************************/
 void Init_UART0() {
 
 	//set port a and uart 0 for use
@@ -71,23 +80,36 @@ UART0->C2 |= UART0_C2_TE_MASK| UART0_C2_RE_MASK;
 
 }
 
-void UART0_Transmit_Poll(char data) {
-	while(!(UART0->S1&UART_S1_TDRE_MASK) && !(UART0->S1&UART_S1_TC_MASK));
-		UART0->D = data;
-}
+/***************************UART INTERRUPT MODE FUNCTIONS**********************
+ In this file we have set of functions we use to transmit and receive characters
+ using UART0 INTERRUPT MODE.
+*****************************************************************************/
 
+//void UART0_Transmit_Poll(char data) {
+//	while(!(UART0->S1&UART_S1_TDRE_MASK) && !(UART0->S1&UART_S1_TC_MASK));
+//		UART0->D = data;
+//}
+
+/*********UART POLLING MODE FUNCTION-Checks for transmission**********************
+ In this function the Initial condition of transmission i.e we use
+ it to check if transmit is available.
+*****************************************************************************/
 uint8_t UART0_check()
 {
 	while(!(UART0->S1&UART_S1_TDRE_MASK) && !(UART0->S1&UART_S1_TC_MASK));
 
 	return 0;
 }
-
+/*********UART POLLING MODE FUNCTION-Transmits data**********************************
+ In this function we take a character and transmit data assuming transmit is available.
+*****************************************************************************************/
 void UART0_poll_tx(char data) {
 	//PRINTF("TRANSMITTING DATA\n \r");
 	UART0->D = data;
 }
-
+/*********UART POLLING MODE FUNCTION-Transmits data**********************************
+ In this function we take a character in function and use the above functions to transmit data.
+*****************************************************************************************/
 void UART0_poll_putchar(char data)			//tx
 {
 	init_LED();
@@ -100,24 +122,32 @@ void UART0_poll_putchar(char data)			//tx
 	}
 }
 
-char UART0_Receive_Poll(void) {
-		while (!(UART0->S1 & UART0_S1_RDRF_MASK))
-			;
-		return UART0->D;
-}
-
+//char UART0_Receive_Poll(void) {
+//		while (!(UART0->S1 & UART0_S1_RDRF_MASK))
+//			;
+//		return UART0->D;
+//}
+/*********UART POLLING MODE FUNCTION-Checks for receiving condition**********************
+ In this function the Initial condition of receiving data i.e we use
+ it to check if receive is availabLe.
+*****************************************************************************/
 uint8_t UART0_rec_check()
 {
 	while(!(UART0->S1 & UART0_S1_RDRF_MASK));
 		return 0;
 }
-
+/*********UART INTERRUPT MODE FUNCTION-Receives data**********************************
+ In this function we return a character assuming receive is available.
+*****************************************************************************************/
 
 char UART0_poll_rx()
 {
 	//PRINTF("Receiving DATA\n \r");
 	return UART0->D;
 }
+/******************UART INTERRUPT MODE FUNCTION-Receives data**********************************
+ In this function we return character and use the above 2 functions to receive data.
+*****************************************************************************************/
 
 char UART0_poll_getchar()			//rx
 {
@@ -137,7 +167,9 @@ char UART0_poll_getchar()			//rx
 		return rec_data;
 }
 
-
+/******************UART INTERRUPT MODE FUNCTION-Receives data**********************************
+ In this function we get string from the user.
+*****************************************************************************************/
 void uart_getstr_poll(unsigned char *string)  //Receive a character until carriage return or newline
 {
 unsigned char i=0,a=0;

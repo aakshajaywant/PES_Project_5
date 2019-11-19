@@ -1,11 +1,22 @@
-//Reference: https://stackoverflow.com/questions/827691/how-do-you-implement-a-circular-buffer-in-c
-
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 						cir_buffer.c
+ ********************************************************************************/
+/**********************************REFERENCE*********************************
+ https://stackoverflow.com/questions/827691/how-do-you-implement-a-circular-buffer-in-c
+*****************************************************************************/
 #include "cir_buffer.h"
-
-
 
 ring_status r_status;
 
+/***************************BUFFER INITIALIZE FUNCTION**********************
+ In this function we take pointer and capacity of the buffer in the function and
+  check for errors if pointer is null or capacity is 0 and if not then
+  we allocate memory for buffer and initialize all the variables of the structure.
+*****************************************************************************/
 
 ring_status buff_initialize(ring_buffer *p, uint8_t capacity)
 {
@@ -34,7 +45,13 @@ ring_status buff_initialize(ring_buffer *p, uint8_t capacity)
 
 	}
 }
-
+/***************************BUFFER CHECK FULL FUNCTION**********************
+ In this function we take pointer in the function and
+  check for errors such as if pointer is null then buffer pointer is valid,
+  if count=capacity,then returns the status of buffer_full and
+  if count=0 then we say buffer is empty else it returns status
+  as buffer not full
+*****************************************************************************/
 ring_status buff_check_full(ring_buffer *p)
 {
 	log_messages(mode,buffcheck_full);
@@ -54,7 +71,13 @@ ring_status buff_check_full(ring_buffer *p)
 		return buffer_not_full;
 
 }
-
+/******************BUFFER CHECK EMPTY FUNCTION**********************
+  In this function we take pointer in the function and
+  check for errors such as if pointer is null then buffer pointer is valid,
+  if count=capacity,then returns the status of buffer_full and
+  if count=0 then we say buffer is empty else it returns status
+  as buffer not full
+*****************************************************************************/
 ring_status buff_check_empty(ring_buffer *p)
 {
 	log_messages(mode,buffcheck_empty);
@@ -77,7 +100,13 @@ ring_status buff_check_empty(ring_buffer *p)
 			return buffer_not_empty;
 }
 
-
+/*****************BUFFER ADD ITEM FUNCTION**********************************************************
+  In this function we take pointer and the character to be stored
+  in the function and check for conditions before storing the character such as:
+  1-if head =capacity-1 and if buffer is empty or buffer is not full then it wraps around the buffer
+  2-if buffer is full,then returns the status of buffer_full and item is not added to buffer
+  3-if buffer is empty or not full then it increments the head for next round of addition
+***************************************************************************************************/
 ring_status buff_add_item(ring_buffer *p,char item)
 {
 	log_messages(mode,buffadd_item);
@@ -93,7 +122,6 @@ ring_status buff_add_item(ring_buffer *p,char item)
 				p->head = 0;
 				p->count++;
 				p->head_count++;
-				//PRINTF("\n \r 1ST");
 				return wrap_around;
 			}
 			else if(buff_check_full(p) == buffer_full)
@@ -124,7 +152,12 @@ ring_status buff_add_item(ring_buffer *p,char item)
 
 return 0;
 }
-
+/**************************************BUFFER REMOVE ITEM FUNCTION*************************************
+  In this function we take pointer in the function and check for conditions before storing the character such as:
+  1-if head =capacity-1 and if buffer is empty or buffer is not full then it wraps around the buffer
+  2-if buffer is full,then returns the status of buffer_full and item is not added to buffer
+  3-if buffer is empty or not full then it increments the tail count for next round of addition
+******************************************************************************************************/
 
 ring_status buff_remove_item(ring_buffer *p)
 {
@@ -132,19 +165,21 @@ ring_status buff_remove_item(ring_buffer *p)
 if(p->head_count > p->tail_count)
 {
 	uint8_t read;
+
 		if((p->tail == (p->capacity - 1)) && ((buff_check_empty(p) == buffer_full) || (buff_check_empty(p) == buffer_not_empty)))
 		  	{
 					read = *(p->buffer + p->tail);
 					//PRINTF("\n\r Wrap around p->buffer[p->tail]: %c",read);
 					//PRINTF("\n\r Wrap around address of p->tail  %p",(p->buffer + p->tail));
-					if(mode==test || mode==debug){
-									putstr("\n Wrap around occurs");
-									}
+					if(mode==test || mode==debug)
+					{
+						putstr("\n Wrap around occurs");
+					}
 					p->tail = 0;
 					p->tail_count++;
 					p->count--;
 					return wrap_around;
-			}
+		  	}
 
 		else if(buff_check_empty(p) == buffer_empty)
 		{
@@ -176,6 +211,10 @@ else
 return 0;
 }
 
+/**************************************BUFFER DESTROY*************************************
+  In this function we take pointer in the function and destroy the created buffer:
+  1-Check if the pointer is null and free buffer
+******************************************************************************************************/
 
 
 
@@ -195,6 +234,13 @@ ring_status buff_destroy(ring_buffer *p)
 
 }
 
+/**************************************BUFFER REMOVE ITEM FUNCTION*************************************
+  In this function we take pointer in the function and check if pointer is valid:
+  1-if pointer is null, return status is FAIL
+  2-else return status is SUCCESS
+******************************************************************************************************/
+
+
 
 ring_status buff_ptr_valid(ring_buffer *p)
 {
@@ -210,7 +256,16 @@ ring_status buff_ptr_valid(ring_buffer *p)
 }
 
 
-ring_status buff_resize(ring_buffer *p,char item)
+/**************************************BUFFER REMOVE ITEM FUNCTION*************************************
+  In this function we take pointer in the function and reallocate more memory on the heap
+  1-takes input of the previous malloc pointer
+  2-allocates more memory in the same address or at new address on the heap; if memory is reallocated
+  then it return status as memory reallocated
+  3-if new memory is not reallocated then it returns a status as memory not reallocated
+******************************************************************************************************/
+
+
+ring_status buff_resize(ring_buffer *p)
 {
 	log_messages(mode,buffresize);
 	if(p->count == p->capacity)

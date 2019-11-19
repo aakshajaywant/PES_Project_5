@@ -1,4 +1,13 @@
-
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 						cir_buffer.h
+ ********************************************************************************/
+/**********************************REFERENCE*********************************
+ https://stackoverflow.com/questions/827691/how-do-you-implement-a-circular-buffer-in-c
+*****************************************************************************/
 
 #ifndef CIR_BUFFER_H_
 #define CIR_BUFFER_H_
@@ -59,7 +68,7 @@ ring_status buff_check_empty(ring_buffer *p);
 ring_status buff_add_item(ring_buffer *p,char item);
 ring_status buff_remove_item(ring_buffer *p);
 ring_status buff_ptr_valid(ring_buffer *p);
-ring_status buff_resize(ring_buffer *p,char item);
+ring_status buff_resize(ring_buffer *p);
 ring_status buff_destroy(ring_buffer *p);
 #endif
 

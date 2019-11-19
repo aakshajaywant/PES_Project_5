@@ -1,7 +1,13 @@
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 						 logger.h
+ ********************************************************************************/
+
 #ifndef LOGGER_H_
 #define LOGGER_H_
-
-
 
 #include <stdio.h>
 #include <stdint.h>

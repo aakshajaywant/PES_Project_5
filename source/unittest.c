@@ -1,9 +1,14 @@
-/********************************************************************************
- 	 	 				PES PROJECT 5
- 	 	 					ucunit.c
- *http://cache.freescale.com/files/32bit/doc/quick_ref_guide/KLQRUG.pdf
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 						unittest.c
+ ********************************************************************************/
+ /**************References******************************************************
+http://cache.freescale.com/files/32bit/doc/quick_ref_guide/KLQRUG.pdf
 http://cunit.sourceforge.net/screenshots.html
-
+http://www.ucunit.org/
 *********************************************************************************/
 #include <unittest.h>
 
@@ -47,6 +52,12 @@ uint8_t uctest_empty(){
 	UCUNIT_CheckIsEqual(test,4);
 }
 
+uint8_t uctest_resize(){
+	uint8_t test=buff_resize(p);
+	UCUNIT_CheckIsEqual(test,17);
+	return 0;
+}
+
 void unit_test(void)
 {
 
@@ -55,6 +66,7 @@ void unit_test(void)
 	uctest_fill();
 	uctest_overfill();
 	uctest_empty();
+	uctest_resize();
 	UCUNIT_WriteSummary();
 	UCUNIT_TestcaseEnd();
 	uctest_clear();

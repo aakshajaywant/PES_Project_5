@@ -1,3 +1,11 @@
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 					    	led.h
+ ********************************************************************************/
+
 #ifndef LED_H_
 
 #define LED_H_

@@ -1,3 +1,11 @@
+/******************************************************************************
+ *  					PES PROJECT 5
+ *   AAKSHA JAYWANT (AAJA1276) & RUCHA BORWANKAR (RUBO1268)
+ * 				Cross Platform IDE: MCUXpresso IDE v11
+ * 					Cross-Compiler: ARM GCC
+ * 					    	led.h
+ ********************************************************************************/
+
 #include "led.h"
 
 void init_LED(void);
@@ -12,7 +20,7 @@ void init_LED(void)
       LED_GREEN_INIT(1);
 }
 
-void wait_receive_led(void)		//temp alert state
+void wait_receive_led(void)		//wait to receive data
 {
 	LED_RED_OFF();
 	LED_GREEN_OFF();
@@ -28,7 +36,7 @@ void error_led(void)	//error or disconnected state
 	delay(10);
 }
 
-void wait_transmit_led(void)	//temp reading state
+void wait_transmit_led(void)	//when transmitting data
 {
 	LED_RED_OFF();
 	LED_BLUE_OFF();
