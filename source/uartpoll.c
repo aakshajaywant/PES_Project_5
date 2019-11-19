@@ -17,6 +17,10 @@
 #include "clock_config.h"
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
+#include "led.h"
+#include "system.h"
+#include "unittest.h"
+
 
 extern ring_buffer *t_buff;
 extern ring_buffer *r_buff;
@@ -67,12 +71,6 @@ UART0->C2 |= UART0_C2_TE_MASK| UART0_C2_RE_MASK;
 
 }
 
-//
-//#if UART_MODE == INTERRUPT_MODE
-//
-//#endif
-
-
 void UART0_Transmit_Poll(char data) {
 	while(!(UART0->S1&UART_S1_TDRE_MASK) && !(UART0->S1&UART_S1_TC_MASK));
 		UART0->D = data;
@@ -92,6 +90,8 @@ void UART0_poll_tx(char data) {
 
 void UART0_poll_putchar(char data)			//tx
 {
+	init_LED();
+	wait_transmit_led();
 	if( UART0_check() == 0 )
 	{
 		UART0_poll_tx(data);
@@ -121,12 +121,14 @@ char UART0_poll_rx()
 
 char UART0_poll_getchar()			//rx
 {
+	init_LED();
+	wait_receive_led();
 	char rec_data;
 		if( UART0_rec_check() == 0 )
 		{
 			rec_data = UART0_poll_rx();
 			ring_status add_buff = buff_add_item(r_buff, rec_data);
-			PRINTF("\n\n\radd_buff statussssss %d",add_buff);
+			PRINTF("\n \r Add_buff status %d",add_buff);
 //			ring_status remove_buff = buff_remove_item(r_buff);
 //			PRINTF("\n\n\rremove_buff statussssss %d",remove_buff);
 		}

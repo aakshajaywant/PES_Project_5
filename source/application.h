@@ -17,8 +17,8 @@
 #include "MKL25Z4.h"
 #include "fsl_debug_console.h"
 
-#define MODE ECHO_MODE//APPLICATION_MODE
+#define MODE APPLICATION_MODE//ECHO_MODE//
 
-void application_mode(char str);
+void app_mode(char string[]);
 
 #endif /* APPLICATION_H_ */

@@ -12,6 +12,7 @@ uint8_t flag = 0;
 ring_status buff_initialize(ring_buffer *p, uint8_t capacity)
 {
 	log_messages(mode,buffinitialize);
+
 	if(p == NULL || capacity <= 0)
 	{
 		return buffer_init_not_done;
@@ -26,7 +27,7 @@ ring_status buff_initialize(ring_buffer *p, uint8_t capacity)
 		p->count = 0;
 		p->head_count=0;
 		p->tail_count=0;
-		PRINTF("\n\rhead positionnnnnnnnn in init is %d",p->head);
+		//PRINTF("\n\r Head position in initial stage is at %d",p->head);
 		return buffer_init_done;
 		if(p == NULL)
 		{
@@ -86,32 +87,40 @@ ring_status buff_add_item(ring_buffer *p,char item)
 			{
 
 				*(p->buffer + p->head) = item;
-				PRINTF("\n\r wrap around p->buffer[p->head]: %c",*(p->buffer + p->head));
-				PRINTF("\n\r wrap around address of p->head  %p",(p->buffer + p->head));
+//				PRINTF("\n\r Wrap around p->buffer[p->head]: %c",*(p->buffer + p->head));
+//				PRINTF("\n\r Wrap around address of p->head  %p",(p->buffer + p->head));
+				if(mode==test || mode==debug){
+				putstr("\n Wrap around occurs");
+				}
 				p->head = 0;
 				p->count++;
 				p->head_count++;
-				PRINTF("\n \r 1ST");
+				//PRINTF("\n \r 1ST");
 				return wrap_around;
 			}
 			else if(buff_check_full(p) == buffer_full)
 			{
-				PRINTF("\n\rADD buffer full");
+				init_LED();
+				error_led();
+				if(mode==test || mode==debug)
+				{
+				putstr("\n Item not added to buffer full");
+				}
 				return item_not_added_in_buff;
 			}
 
 			else if((buff_check_full(p) == buffer_empty) || (buff_check_full(p) == buffer_not_full))
 			{
 				*(p->buffer + p->head) = item;
-				PRINTF("**************************************************************");
+				//PRINTF("**************************************************************");
 				PRINTF("\n\r p->buffer[p->head] character: %c",*(p->buffer + p->head));
 				PRINTF("\n\r address of p->head  %p",(p->buffer + p->head));
 				p->head++;
 				p->count++;
 				p->head_count++;
-				PRINTF("\n\rhead positionnnnnnnnn incremented is now %d",p->head);
-				PRINTF("\n\rhead count is %d",p->count);
-				PRINTF("\n\r4TH");
+				//PRINTF("\n\r head position incremented is now %d",p->head);
+				//PRINTF("\n\r head count is %d",p->count);
+				//PRINTF("\n\r4TH");
 				return item_added_in_buff;
 			}
 
@@ -128,8 +137,11 @@ if(p->head_count > p->tail_count)
 		if((p->tail == (p->capacity - 1)) && ((buff_check_empty(p) == buffer_full) || (buff_check_empty(p) == buffer_not_empty)))
 		  	{
 					read = *(p->buffer + p->tail);
-					PRINTF("\n\r wrap around p->buffer[p->tail]: %c",read);
-					PRINTF("\n\r wrap around address of p->tail  %p",(p->buffer + p->tail));
+					//PRINTF("\n\r Wrap around p->buffer[p->tail]: %c",read);
+					//PRINTF("\n\r Wrap around address of p->tail  %p",(p->buffer + p->tail));
+					if(mode==test || mode==debug){
+									putstr("\n Wrap around occurs");
+									}
 					p->tail = 0;
 					p->tail_count++;
 					p->count--;
@@ -138,25 +150,30 @@ if(p->head_count > p->tail_count)
 
 		else if(buff_check_empty(p) == buffer_empty)
 		{
-			PRINTF("ITEM not removedddddddddddddddddd because fullllll");
+			PRINTF("ITEM not removed because full");
 			return oldest_item_not_removed;
 		}
 		else if((buff_check_empty(p) == buffer_full) || (buff_check_empty(p) == buffer_not_empty))
 			{
 				read = *(p->buffer + p->tail);
-				PRINTF("\n\r p->buffer[p->tail] character: %c",read);
-				PRINTF("\n\r address of p->tail  %p",(p->buffer + p->tail));
+//				PRINTF("\n\r p->buffer[p->tail] character: %c",read);
+//				PRINTF("\n\r address of p->tail  %p",(p->buffer + p->tail));
+				if(mode==test || mode==debug)
+				{
+					putstr("\n Buffer removed \n");
+				}
 				(p->tail)++;
 				p->count--;
 				p->tail_count++;
-				PRINTF("\n\rtail positionnnnnnnnn incremented is now %d",p->tail);
-				PRINTF("\n\rcountttttttttttttttttttttttttt  nowwwwww is %d",p->count);
+			//	PRINTF("\n\rtail position incremented is now %d",p->tail);
+			//	PRINTF("\n\rcount  now is %d",p->count);
 				return oldest_item_removed;
 			}
 }
 else
 {
-	PRINTF("waitttttttttttttt");
+	putstr("\n********* wait************ \n");
+	//PRINTF("waitttttttttttttt");
 }
 return 0;
 }
@@ -200,8 +217,8 @@ ring_status buff_resize(ring_buffer *p,char item)
 	log_messages(mode,buffresize);
 	if(p->count == p->capacity)
 	{
-		PRINTF("\n \r *****************************************************");
-		PRINTF("\n \r Buffer is extended");
+		//putstr("\n \r *****************************************************");
+		putstr("\n \r Buffer is resized");
 
 		p->buffer_new = (char*) realloc(p->buffer, sizeof(char)*2*(p->capacity));
 

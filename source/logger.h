@@ -36,11 +36,13 @@ typedef enum
 	buffremove_item,
 	buffptr_valid,
 	buffdestroy,
-	buffresize
+	buffresize,
+	applicationmode,
+	echomode
 }log_func;
 
 
-#define mode debug
+#define mode test
 //#define func INITIALIZE_buffer
 
 void log_level(log_mode mode);

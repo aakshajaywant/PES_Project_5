@@ -43,7 +43,7 @@ if(hour>24)
 hour=0;
 }
 
-printf("\t %02d:%02d:%02d:%02lu",hour,min,sec,timer);
+printf("\t %02d:%02d:%02d:%02lu \n ",hour,min,sec,timer);
 }
 
 
@@ -60,19 +60,19 @@ void log_level(log_mode mode)
     }
     else if(mode == status)
     {
-        putstr("\n\rMODE: Status");
+        putstr("\n\r MODE: Status");
     }
 }
 
 
-char ch_arr[40][40]={   "\t Initialize the buffer\n",
-						"\t Checks if Buffer is full\n",
-						"\t Checks if Buffer is Empty\n",
-						"\t Add element to the Buffer\n",
-						"\t Remove element from the Buffer\n",
-						"\t Checks if Pointer to Buffer is valid\n",
-						"\t Destroys the Buffer\n"
-						"\t Resizes the Buffer\n"
+char ch_arr[40][40]={   "\t Initialize the buffer",
+						"\t Checks if Buffer is full",
+						"\t Checks if Buffer is Empty",
+						"\t Add element to the Buffer",
+						"\t Remove element from the Buffer",
+						"\t Checks if Pointer to Buffer is valid",
+						"\t Destroys the Buffer"
+						"\t Resizes the Buffer"
 					};
 
 void logger_func(log_func func_nm)

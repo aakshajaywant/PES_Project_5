@@ -86,11 +86,15 @@ void UART0_IRQHandler()
  if (UART0->S1&UART_S1_RDRF_MASK)
  {
 	 //c = UART0->D;
+	 init_LED();
+	 wait_receive_led();
 	 c=UART0_int_getchar();
 
  if (!(UART0->S1&UART_S1_TDRE_MASK) && !(UART0->S1&UART_S1_TC_MASK))
  	 	 {
  //UART0->D = c;
+	 	 	 init_LED();
+	 	 	 wait_transmit_led();
 	 	 	 UART0_int_putchar(c);
  	 	 }
  }

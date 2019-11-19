@@ -3,7 +3,7 @@
 
 #if MODE == APPLICATION_MODE
 
-void application_mode(char string[])
+void app_mode(char string[])
 {
    //char string[100];
    int a = 0,c=0, count[26] = {0},count2[26] = {0},count3[26] = {0}, x;
