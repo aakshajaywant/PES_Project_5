@@ -1,0 +1,9 @@
+uartinterrupt.c:41:9:UART0_int_check	8	static
+uartinterrupt.c:51:6:UART0_int_tx	16	static
+uartinterrupt.c:58:6:UART0_int_putchar	16	static
+uartinterrupt.c:77:9:UART0_int_rec_check	8	static
+uartinterrupt.c:86:6:UART0_int_rx	8	static
+uartinterrupt.c:94:6:UART0_int_getchar	24	static
+uartinterrupt.c:107:6:uart_getstr_int	32	static
+uartinterrupt.c:132:6:UART0_IRQHandler	24	static
+uartinterrupt.c:180:6:putstr	16	static

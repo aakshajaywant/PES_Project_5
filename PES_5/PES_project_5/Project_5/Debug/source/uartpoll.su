@@ -1,0 +1,10 @@
+core_cm0plus.h:745:22:NVIC_EnableIRQ	16	static
+core_cm0plus.h:804:22:NVIC_SetPriority	24	static
+uartpoll.c:37:6:Init_UART0	8	static
+uartpoll.c:97:9:UART0_check	8	static
+uartpoll.c:106:6:UART0_poll_tx	16	static
+uartpoll.c:113:6:UART0_poll_putchar	16	static
+uartpoll.c:134:9:UART0_rec_check	8	static
+uartpoll.c:143:6:UART0_poll_rx	8	static
+uartpoll.c:152:6:UART0_poll_getchar	24	static
+uartpoll.c:173:6:uart_getstr_poll	32	static

@@ -1,0 +1,7 @@
+unittest.c:19:9:init_uctest	24	static
+unittest.c:29:9:uctest_fill	24	static
+unittest.c:36:9:uctest_clear	8	static
+unittest.c:44:9:uctest_overfill	24	static
+unittest.c:50:9:uctest_empty	24	static
+unittest.c:55:9:uctest_resize	24	static
+unittest.c:61:6:unit_test	8	static
