@@ -8,31 +8,32 @@ Project Name: UART Communications with PC
 ---------------------
 
 -PES_Project_5
-	-Includes
-	-CMSIS
-	-board
-	-drivers
-	-source
-		-application.c
-   		-application.h
-   		-cir_buffer.c
-   		-cir_buffer.h
-		-led.c
-		-led.h
-		-logger.c
-		-logger.h
-		-Project_5.c
-		-system.c
-		-system.h
-		-uartinterrupt.c
-		-uartinterrupt.h
-		-uartpoll.c
-		-uartpoll.h
-		-unittest.c
-		-unittest.h
-	-startup
-	-utilities
-	-Debug
+________________
+-Includes
+-CMSIS
+-board
+-drivers
+-source
+	-application.c
+   	-application.h
+   	-cir_buffer.c
+  	-cir_buffer.h
+	-led.c
+	-led.h
+	-logger.c
+	-logger.h
+	-Project_5.c
+	-system.c
+	-system.h
+	-uartinterrupt.c
+	-uartinterrupt.h
+	-uartpoll.c
+	-uartpoll.h
+	-unittest.c
+	-unittest.h
+-startup
+-utilities
+-Debug
 -README.md
 
 -------------------------------
