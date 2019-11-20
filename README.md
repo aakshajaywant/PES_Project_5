@@ -7,34 +7,34 @@ Project Name: UART Communications with PC
 || FILE CONTENTS:- ||
 ---------------------
 
--PES_Project_5
-________________
--Includes
--CMSIS
--board
--drivers
--source
-	-application.c
-   	-application.h
-   	-cir_buffer.c
-  	-cir_buffer.h
-	-led.c
-	-led.h
-	-logger.c
-	-logger.h
-	-Project_5.c
-	-system.c
-	-system.h
-	-uartinterrupt.c
-	-uartinterrupt.h
-	-uartpoll.c
-	-uartpoll.h
-	-unittest.c
-	-unittest.h
--startup
--utilities
--Debug
--README.md
+PES_Project_5
+
+	-Includes
+	-CMSIS
+	-board
+	-drivers
+	-source
+		-application.c
+   		-application.h
+   		-cir_buffer.c
+  		-cir_buffer.h
+		-led.c
+		-led.h
+		-logger.c
+		-logger.h
+		-Project_5.c
+		-system.c
+		-system.h
+		-uartinterrupt.c
+		-uartinterrupt.h
+		-uartpoll.c
+		-uartpoll.h
+		-unittest.c
+		-unittest.h
+	-startup
+	-utilities
+	-Debug
+	-README.md
 
 -------------------------------
 || EXECUTION INSTRUCTIONS :- ||
@@ -63,7 +63,8 @@ Following listed steps should be used for running the program in MCUXPresso IDE:
 Part 1. UART-based Communications with PC Terminal Program
 
 1)Circular Buffer
-	-Function to add a new item to a buffer 
+c-Function to add a new item to a buffer 
+
 	-Function to remove oldest item from a buffer
 	-Function to check is buffer full
 	-Function to check is buffer empty
